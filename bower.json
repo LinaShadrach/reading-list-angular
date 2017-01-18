@@ -1,6 +1,6 @@
 {
-  "name": "angular2-skeleton",
-  "description": "basic template for angular2 projects",
+  "name": "reading-list-angular2",
+  "description": "keep track of the books you've read and the ones you'd like to read",
   "main": "",
   "authors": [
     "Lina Shadrach <lina.shadrach@gmail.com>"
