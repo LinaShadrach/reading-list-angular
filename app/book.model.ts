@@ -8,7 +8,7 @@ export class Book {
   public review: string = null;
   public rating: number = null;
 
-  constructor(public title: string, public author: string, public nf: boolean, public genre: string[]){
+  constructor(public title: string, public author: string, public fiction: boolean, public genre: string[]){
 
   }
 }

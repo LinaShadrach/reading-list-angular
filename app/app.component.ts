@@ -25,7 +25,7 @@ export class AppComponent {
   selectedBook = null;
   addBook = null;
   masterBookList: Book[] = [
-    new Book("Sirens of Titan", "Kurt Vonnegut, Jr.", false, ["absurd", "sci-fi", "existential"]), new Book("Do Androids Dream of Electric Sheep?", "Phillip K. Dick", false, ["sci-fi", "existential"])
+    new Book("Sirens of Titan", "Kurt Vonnegut, Jr.", true, ["absurd", "sci-fi", "existential"]), new Book("Do Androids Dream of Electric Sheep?", "Phillip K. Dick", true, ["sci-fi", "existential"])
   ];
   editBook(clickedBook) {
     this.selectedBook = clickedBook;
