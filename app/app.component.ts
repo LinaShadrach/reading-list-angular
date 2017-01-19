@@ -1,15 +1,18 @@
 import { Component } from '@angular/core';
+import { Book } from './book.model';
+import { NewBookComponent} from './new-book.component';
+import { EditBookComponent } from './edit-book.component';
+import { BookListComponent} from './book-list.component';
 
 @Component({
   selector: 'app-root',
   template: `
   <div class="container">
       <h1>Reading List</h1>
-      <h4>{{testBook.title}}</h4>
-      <h4>{{testBook.pgsRead}}</h4>
-      <ul>
-      <li *ngFor="let currentGenre of testBook.genre">{{currentGenre}}</li>
-      </ul>
+      <book-list [childBookList]="masterBookList" (clickSender)="editBook($event)"></book-list>
+      <edit-task [childBookToEdit]="selectedBook" (doneEditingClickedSender)="doneEditing()"></edit-task>
+      <new-book [childNewBook]="addBook" (newBookSender)="addBookToList($event)"></new-book>
+      <button *ngIf="!AddBook" (click)="showAddBookForm()">Add New Book to List</button>
       <h4>{{currentTime}}</h4>
   </div>
   `
@@ -19,19 +22,23 @@ export class AppComponent {
   month: number = this.currentTime.getMonth() + 1;
   day: number = this.currentTime.getDate();
   year: number = this.currentTime.getFullYear();
-  testBook: Book = new Book("Sirens of Titan", "Kurt Vonnegut, Jr.", false, ["absurd", "sci-fi", "existential"]);
-}
-export class Book {
-  public status: string = "not started";
-  public pgsRead: number = 0;
-  public startDate: Date = null;
-  public endDate: Date = null;
-  public dateAbandoned: Date = null;
-  public description: string = "No description provided yet";
-  public review: string = null;
-  public rating: number = null;
-
-  constructor(public title: string, public author: string, public nf: boolean, public genre: string[]){
-
+  selectedBook = null;
+  addBook = null;
+  masterBookList: Book[] = [
+    new Book("Sirens of Titan", "Kurt Vonnegut, Jr.", false, ["absurd", "sci-fi", "existential"]), new Book("Do Androids Dream of Electric Sheep?", "Phillip K. Dick", false, ["sci-fi", "existential"])
+  ];
+  editBook(clickedBook) {
+    this.selectedBook = clickedBook;
+    console.log("in edit" + this.selectedBook.title);
   }
+  doneEditing() {
+    this.selectedBook = null;
+  }
+  showAddBookForm() {
+    this.addBook = true;
+  }
+  addBookToList(newBookFromChild: Book) {
+    this.masterBookList.push(newBookFromChild);
+  }
+
 }
