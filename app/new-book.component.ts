@@ -13,17 +13,22 @@ import { Book } from './book.model';
           <br>
           <label>fiction or non-fiction?</label>
           <br>
-          <input #fiction [value]="true" type="radio"> fiction
-          <input #nonFiction [value]="false" type="radio"> non-fiction
+          <input name="checkFiction" (change)="updateFictioness(true);" type="radio"> fiction
+          <input name="checkFiction" (change)="updateFictioness(false);" type="radio"> non-fiction
           <br>
           <label>genre:</label><br>
-          <input [ng-true-value]="sci-fi" type="checkbox"> sci-fi
-          <input [ng-true-value]="fantasy" type="checkbox"> fantasy
-          <input [ng-true-value]="adventure" type="checkbox"> adventure
-          <input [ng-true-value]="coming-of-age" type="checkbox"> coming-of-age
-          <input [ng-true-value]="absurd" type="checkbox"> absurd
-          <br>
-          <button (click)="submitForm(newTitle.value, newAuthor.value); newTitle.value=''; newAuthor.value=''">add</button>
+          <div *ngIf="fiction">
+            <div *ngFor="let fictionGenre of masterFictionGenreList">
+              <input [value]="fictionGenre" type="checkbox" (change)="collectChecks(fictionGenre)"> {{fictionGenre}}
+            </div>
+          </div>
+          <div *ngIf="!fiction">
+            <div *ngFor="let nonFictionGenre of masterNonFictionGenreList">
+              <input [value]="nonFictionGenre" type="checkbox" (change)="collectChecks(nonFictionGenre)"> {{nonFictionGenre}}
+            </div>
+          </div>
+          <h3 *ngFor="let genre of childNewBook.genre">{{genre}}</h3>
+          <button (click)="submitForm(newTitle.value, newAuthor.value); newTitle.value=''; newAuthor.value='';">add</button>
       </div>
     </div>
   `
@@ -32,8 +37,37 @@ import { Book } from './book.model';
 export class NewBookComponent {
   @Input() childNewBook: Book;
   @Output() newBookSender = new EventEmitter();
+  fiction = null;
+  checkFiction = false;
+  checkNonFiction = false;
+  checkedGenre: string[] = [];
+  masterFictionGenreList: string[] = [
+    "sci-fi", "fantasy", "adventure", "coming-of-age", "satire", "mystery", "horror"
+  ];
+  masterNonFictionGenreList: string[] = [
+    "biography", "autobiography", "self-help", "biology", "chemistry", "psychology", "astronomy"
+  ];
   submitForm(title: string, author: string){
-    var newBook: Book = new Book(title, author, true, ["genre1", "genre2"]);
+    var newBook: Book = new Book(title, author, this.fiction, this.checkedGenre);
     this.newBookSender.emit(newBook);
+  }
+  updateFictioness(fiction: boolean) {
+    this.fiction = fiction;
+    if(fiction){
+      console.log('fiction');
+      this.checkNonFiction = false;
+    }
+    if(fiction===false){
+      this.checkFiction = false;
+    }
+  }
+  collectChecks(genre: string) {
+    if(this.checkedGenre.indexOf(genre)===-1){
+      this.checkedGenre.push(genre);
+    }
+    else{
+      var index: number = this.checkedGenre.indexOf(genre);
+      this.checkedGenre.splice(index,1);
+    }
   }
 }

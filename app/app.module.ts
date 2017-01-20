@@ -6,6 +6,7 @@ import { BookListComponent } from './book-list.component';
 import { EditBookComponent } from './edit-book.component';
 import { FormsModule }  from '@angular/forms';
 import { FictionessPipe } from './fictioness.pipe';
+import { ByGenrePipe } from './genre.pipe';
 
 @NgModule({
   imports: [ BrowserModule,
@@ -14,7 +15,8 @@ import { FictionessPipe } from './fictioness.pipe';
                   BookListComponent,
                   EditBookComponent,
                   NewBookComponent,
-                  FictionessPipe ],
+                  FictionessPipe,
+                  ByGenrePipe ],
   bootstrap:    [ AppComponent ]
 })
 export class AppModule { }
